@@ -50,6 +50,7 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
       KAFKA_CREATE_TOPICS: "test:1:1"
       KAFKA_POSTGRES_CONNECT: postgres:5432
+      KAFKA_MONGO_CONNECT: mongo:27017
     volumes:
       - ./kafka/connectors:/connect_plugins
       - ./kafka/connector_configs:/connect_configs
@@ -117,9 +118,13 @@ services:
       - sashaNET
 
   mongo:
-    image: mongo
+    image: "mongo:4.0-xenial"
+    container_name: mongo
     networks:
       - sashaNET
+    ports:
+      - "27017:27017"
+    restart: always
 
 #  elastic:
 #    image: elasticsearch:8.4.3
@@ -142,6 +147,21 @@ services:
 #      - ./databases/neo4j/plugins:/plugins
 #    networks:
 #      - sashaNET
+  frontend:
+    image: busybox
+    #entrypoint: []
+    command: [ "/bin/busybox", "httpd", "-f", "-p", "8080" ]
+    working_dir: /
+    environment:
+      SECRET_KEY2: aabbcc
+      ENV_IS_SET2:
+    links:
+      - postgres-ma
+    labels:
+      my.label: my_value
+
+    networks:
+      - sashaNET
 
 networks:
   sashaNET:

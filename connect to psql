@@ -1,0 +1,20 @@
+controlcenter ui localhost:9021
+
+wget postgres-ma:22808/api/fill-database
+
+Docker run -it —name=m busybox
+
+psql -U mger -W paron
+
+(pass 228008)
+\l - список bd
+\c <название бд> - подключиться к бд
+\dt - список таблиц
+\d <название таблицы> - информация по таблице
+\h <комманда sql>
+
+SELECT * FROM institutes;
+
+INSERT INTO institutes (name) VALUES ('proverka');
+
+DELTE FROM institutes where name='proverka'

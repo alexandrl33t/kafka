@@ -86,16 +86,9 @@ def get_courses():
         res.append({"name": key, "groups": val})
 
     return res
-
-@app.route("/api/fill-database", methods=["POST"])
+@app.route("/api/fill-database", methods=["GET"])
 def fill_database():
-    args = request.args
-
-    if is_scheme_created(postgre):
-        app.logger.info("Scheme already created")
-    elif "create" in args:
-        prepare_database(postgre)
-
+    prepare_database(postgre)
     return "Mger"
 
 def try_fetch(url):
@@ -114,5 +107,5 @@ if __name__ == "__main__":
     app.logger.info("Connecting to postgres")
     postgre = utils.get_postgre()
     app.logger.info("Connected to postgres")
-
+    # fill_database()
     app.run(host="0.0.0.0", port=os.environ["LOCAL_SERVICES_PORT"])
